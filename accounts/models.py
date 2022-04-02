@@ -4,15 +4,27 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     email = models.EmailField(verbose_name="email", unique=True)
-    country = models.CharField(max_length=25, verbose_name="country", blank=True)
+    country = models.ForeignKey(
+        "Country",
+        on_delete=models.SET_DEFAULT,
+        default=1,
+        related_name="country_custom_user")
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "country"]
+    REQUIRED_FIELDS = ["username"]
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
 
 
+class Country(models.Model):
+    country_name = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        unique=True,
+        verbose_name="country")
 
+    objects = models.Manager()
 
 
