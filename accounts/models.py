@@ -4,6 +4,12 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     email = models.EmailField(verbose_name="email", unique=True)
+
+    """
+    The value of next attribute is set by default by command "create_country".
+    It is necessary to create the first record in the database table    
+    """
+
     country = models.ForeignKey(
         "Country",
         on_delete=models.SET_DEFAULT,
@@ -25,6 +31,7 @@ class Country(models.Model):
         unique=True,
         verbose_name="country")
 
+    def __str__(self):
+        return self.country_name
+
     objects = models.Manager()
-
-
