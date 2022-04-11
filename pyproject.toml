@@ -6,12 +6,19 @@ authors = ["Sergey <Mikulenko345@rambler.ru>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "^4.0.3"
 djangorestframework = "^3.13.1"
 psycopg2 = "^2.9.3"
-djoser = "^2.1.0"
 beautifulsoup4 = "^4.10.0"
 lxml = "^4.8.0"
+celery = "^5.2.3"
+django-celery-results = "^2.3.0"
+Django = "3.2.12"
+django-celery-beat = "^2.2.1"
+redis = "^4.2.2"
+eventlet = "^0.33.0"
+djoser = "^2.1.0"
+ics = "^0.7"
+tzdata = "^2022.1"
 
 [tool.poetry.dev-dependencies]
 

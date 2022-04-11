@@ -3,7 +3,10 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(verbose_name="email", unique=True)
+    email = models.EmailField(
+        verbose_name="email",
+        unique=True
+    )
 
     """
     The value of next attribute is set by default by command "create_country".
@@ -17,7 +20,7 @@ class CustomUser(AbstractUser):
         related_name="country_custom_user")
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["username", ]
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'

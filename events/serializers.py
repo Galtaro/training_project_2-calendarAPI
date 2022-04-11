@@ -7,7 +7,7 @@ from events.models import Event
 class CreateApiEventSerializer(ModelSerializer):
     class Meta:
         model = Event
-        exclude = ["user", ]
+        exclude = ["user", "country_holiday", "official_holiday"]
 
     def validate(self, attrs):
         start_datetime = self.initial_data["start_datetime"]
