@@ -4,7 +4,7 @@ from rest_framework.serializers import ModelSerializer
 from events.models import Event
 
 
-class CreateApiEventSerializer(ModelSerializer):
+class ListCreateApiEventSerializer(ModelSerializer):
     class Meta:
         model = Event
         exclude = ["user", "country_holiday", "official_holiday"]

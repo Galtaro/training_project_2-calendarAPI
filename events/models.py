@@ -2,11 +2,17 @@ from django.db import models
 
 from accounts.models import CustomUser, Country
 
+STATUS_CHOICES = (
+    (False, "Show only custom events"),
+    (True, "Show only official holidays events"),
+)
+
 
 class Event(models.Model):
     user = models.ManyToManyField(
         CustomUser,
         related_name="custom_user_event",
+        through="CustomUserEvent",
         blank=True
     )
     name = models.CharField(
@@ -42,7 +48,11 @@ class Event(models.Model):
         related_name="country_event"
     )
 
-    official_holiday = models.BooleanField(default=False, db_index=True)
+    official_holiday = models.BooleanField(
+        choices=STATUS_CHOICES,
+        default=False,
+        db_index=True
+    )
 
     def save(self, *args, **kwargs):
         if not self.end_datetime:
@@ -52,6 +62,32 @@ class Event(models.Model):
                 second=00
             )
         super().save(*args, **kwargs)
+
+    objects = models.Manager()
+
+
+class CustomUserEvent(models.Model):
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="custom_user_user_event"
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name="event_user_event"
+    )
+    subscription_status = models.BooleanField(
+        default=False,
+        db_index=True
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'event'],
+                name='user_event_unique'),
+        ]
 
     objects = models.Manager()
 

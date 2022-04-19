@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
         related_name="country_custom_user")
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", ]
+    REQUIRED_FIELDS = ["username", "country"]
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
@@ -35,6 +35,6 @@ class Country(models.Model):
         verbose_name="country")
 
     def __str__(self):
-        return self.country_name
+        return str(self.country_name)
 
     objects = models.Manager()

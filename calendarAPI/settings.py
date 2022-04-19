@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_celery_results',
     'django_celery_beat',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -58,9 +59,10 @@ ROOT_URLCONF = 'calendarAPI.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SIMPLE_JWT = {

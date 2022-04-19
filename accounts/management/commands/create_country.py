@@ -17,9 +17,8 @@ def get_all_countries(*args, **kwargs):
     response = requests.get(page)
     soup = BeautifulSoup(response.text, 'lxml')
     countries = soup.find_all('div', class_='four omega columns')[0].find_all('a')
-    for country in countries:
-        country = country.contents[1].strip()
-        Country.objects.create(country_name=country)
+    objs = (Country(country_name=country.contents[1].strip()) for country in countries)
+    Country.objects.bulk_create(objs)
 
 
 class Command(BaseCommand):

@@ -33,9 +33,4 @@ class Migration(migrations.Migration):
             model_name='event',
             name='user',
         ),
-        migrations.AddField(
-            model_name='event',
-            name='user',
-            field=models.ManyToManyField(blank=True, related_name='custom_user_event', to=settings.AUTH_USER_MODEL),
-        ),
     ]
