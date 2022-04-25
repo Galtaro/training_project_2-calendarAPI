@@ -5,10 +5,8 @@ from events.views import ListCreateApiEvent
 app_name = "Event"
 
 urlpatterns = [
-    path(
-        'list_create/',
-        ListCreateApiEvent.as_view(),
-        name='list-create-event'
-    ),
-
+    path('list_create/',
+         ListCreateApiEvent.as_view(),
+         name='list-create-event'
+         )
 ]

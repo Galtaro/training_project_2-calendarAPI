@@ -15,16 +15,16 @@ from events.utils.create_tasks import create_task_send_notification
 
 class EventFilter(filters.FilterSet):
     from_datetime = filters.DateTimeFilter(
-        field_name="start_datetime",
+        field_name='start_datetime',
         lookup_expr='gte'
     )
     to_datetime = filters.DateTimeFilter(
-        field_name="end_datetime",
+        field_name='end_datetime',
         lookup_expr='lte'
     )
     official_holiday = ChoiceFilter(
         choices=STATUS_CHOICES,
-        empty_label="Show all events"
+        empty_label='Show all events'
     )
 
     class Meta:
@@ -33,8 +33,8 @@ class EventFilter(filters.FilterSet):
 
     def filter_queryset(self, queryset):
         user = self.request.user
-        if "official_holiday" in self.data:
-            official_holiday = self.data["official_holiday"]
+        if 'official_holiday' in self.data:
+            official_holiday = self.data['official_holiday']
             if user.country and len(official_holiday):
                 official_holiday = strtobool(official_holiday)
                 queryset = Event.objects.filter(
@@ -62,9 +62,9 @@ class ListCreateApiEvent(ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        event_name = serializer.validated_data["name"]
-        notification = serializer.validated_data["notification"].value_time
-        event_start_datetime = serializer.validated_data["start_datetime"]
+        event_name = serializer.validated_data['name']
+        notification = serializer.validated_data['notification'].value_time
+        event_start_datetime = serializer.validated_data['start_datetime']
         email = self.request.user.email
         user = CustomUser.objects.get(email=request.user)
         user.save()

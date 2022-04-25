@@ -3,28 +3,28 @@ from django.db import models
 from accounts.models import CustomUser, Country
 
 STATUS_CHOICES = (
-    (False, "Show only custom events"),
-    (True, "Show only official holidays events"),
+    (False, 'Show only custom events'),
+    (True, 'Show only official holidays events'),
 )
 
 
 class Event(models.Model):
     user = models.ManyToManyField(
         CustomUser,
-        related_name="custom_user_event",
-        through="CustomUserEvent",
+        related_name='custom_user_event',
+        through='CustomUserEvent',
         blank=True
     )
     name = models.CharField(
         max_length=100,
-        verbose_name="event_name"
+        verbose_name='event_name'
     )
     start_datetime = models.DateTimeField(
-        verbose_name="event_start_datetime"
+        verbose_name='event_start_datetime'
     )
     end_datetime = models.DateTimeField(
         blank=True,
-        verbose_name="event_end_datetime"
+        verbose_name='event_end_datetime'
     )
 
     """
@@ -34,10 +34,10 @@ class Event(models.Model):
     """
 
     notification = models.ForeignKey(
-        "Notification",
+        'Notification',
         on_delete=models.SET_DEFAULT,
         default=1,
-        verbose_name="notification_event"
+        verbose_name='notification_event'
     )
 
     country_holiday = models.ForeignKey(
@@ -45,7 +45,7 @@ class Event(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        related_name="country_event"
+        related_name='country_event'
     )
 
     official_holiday = models.BooleanField(
@@ -63,6 +63,13 @@ class Event(models.Model):
             )
         super().save(*args, **kwargs)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'start_datetime', 'end_datetime'],
+                name='name_start_datetime_end_datetime_unique'),
+        ]
+
     objects = models.Manager()
 
 
@@ -70,12 +77,12 @@ class CustomUserEvent(models.Model):
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        related_name="custom_user_user_event"
+        related_name='custom_user_user_event'
     )
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
-        related_name="event_user_event"
+        related_name='event_user_even'
     )
     subscription_status = models.BooleanField(
         default=False,
@@ -95,17 +102,17 @@ class CustomUserEvent(models.Model):
 class Notification(models.Model):
     description = models.CharField(
         max_length=80,
-        verbose_name="notification_description"
+        verbose_name='notification_description'
     )
     value_time = models.PositiveIntegerField(
         blank=True,
         null=True,
-        verbose_name="notification_value_time"
+        verbose_name='notification_value_time'
     )
 
     def __str__(self):
         if self.value_time is None:
-            return "---"
+            return '---'
         return str(self.description)
 
     objects = models.Manager()

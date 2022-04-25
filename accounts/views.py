@@ -1,6 +1,11 @@
 from djoser.views import UserViewSet
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+from accounts.signals import add_official_holidays_to_custom_user
 
 """
 There’s code to handle user activation, but it doesn’t support a GET request
@@ -26,3 +31,14 @@ class ActivateUser(UserViewSet):
     def activation(self, request, uid, token, *args, **kwargs):
         super().activation(request, *args, **kwargs)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ApiCustomUserEvent(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request):
+        user = request.user
+        response = add_official_holidays_to_custom_user(user)
+        return response
+

@@ -13,7 +13,7 @@ def get_all_countries(*args, **kwargs):
     """
 
     Country.objects.create(country_name=None)
-    page = "https://www.officeholidays.com/countries"
+    page = 'https://www.officeholidays.com/countries'
     response = requests.get(page)
     soup = BeautifulSoup(response.text, 'lxml')
     countries = soup.find_all('div', class_='four omega columns')[0].find_all('a')

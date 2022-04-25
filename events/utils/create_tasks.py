@@ -11,8 +11,8 @@ def create_task_send_notification(event_name, notification, event_start_datetime
     date_time_notification = event_start_datetime - timedelta(hours=notification)
     clocked_schedule = ClockedSchedule.objects.create(clocked_time=date_time_notification)
     PeriodicTask.objects.create(
-        name=f"send_notification, {email}, {event_name}",
-        task="events.tasks.send_event_notification",
+        name=f'send_notification, {email}, {event_name}',
+        task='events.tasks.send_event_notification',
         kwargs=dumps(
             {'event_name': event_name,
              'email': email,

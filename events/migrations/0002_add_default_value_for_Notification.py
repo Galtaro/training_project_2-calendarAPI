@@ -2,9 +2,9 @@ from django.db import migrations
 
 
 def create_defaults(apps, schema_editor):
-    Notification = apps.get_model("events", "Notification")
+    Notification = apps.get_model('events', 'Notification')
     Notification.objects.create(
-        description="Do not deliver notification",
+        description='Do not deliver notification',
         value_time=None
 
     )

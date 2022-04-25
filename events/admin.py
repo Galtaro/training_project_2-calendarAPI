@@ -6,8 +6,8 @@ from events.models import Notification
 
 
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ["value_time", "description"]
-    ordering = ["value_time"]
+    list_display = ['value_time', 'description']
+    ordering = ['value_time']
 
     def log_deletion(self, request, obj, object_repr):
 
@@ -20,7 +20,7 @@ class NotificationAdmin(admin.ModelAdmin):
 
         if obj.id == 1:
             raise ValidationError({
-                "detail": "You cannot delete this entry"
+                'detail': 'You cannot delete this entry'
             }, code='invalid')
 
         return LogEntry.objects.log_action(
