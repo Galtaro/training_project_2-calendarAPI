@@ -33,7 +33,7 @@ class ActivateUser(UserViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ApiCustomUserEvent(APIView):
+class ApiUpdateCustomUserEvent(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 

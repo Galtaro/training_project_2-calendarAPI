@@ -82,7 +82,7 @@ class CustomUserEvent(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
-        related_name='event_user_even'
+        related_name='event_user_event'
     )
     subscription_status = models.BooleanField(
         default=False,

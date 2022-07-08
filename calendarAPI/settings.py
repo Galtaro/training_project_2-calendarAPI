@@ -59,8 +59,8 @@ ROOT_URLCONF = 'calendarAPI.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
@@ -168,5 +168,5 @@ DJOSER = {
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'TestUser24071987@gmail.com'
-EMAIL_HOST_PASSWORD = 'Testme87'
+EMAIL_HOST_PASSWORD = 'ojaafbficsevpmtz'
 EMAIL_PORT = 587

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from accounts.views import ActivateUser, ApiCustomUserEvent
+from accounts.views import ActivateUser, ApiUpdateCustomUserEvent
 
 urlpatterns = [
     path('activate/<uid>/<token>',
@@ -8,7 +8,7 @@ urlpatterns = [
          name='activation'
          ),
     path('account/update_official_holidays',
-         ApiCustomUserEvent.as_view(),
+         ApiUpdateCustomUserEvent.as_view(),
          name='update-custom-user-event'
          )
 ]
