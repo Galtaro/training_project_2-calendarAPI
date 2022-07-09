@@ -156,7 +156,7 @@ class TestSignal(TransactionTestCase):
         country_official_holidays = Event.objects.filter(country_holiday=user.country, official_holiday=True)
         user_official_holidays = Event.objects.filter(
             Q(country_holiday=user.country, official_holiday=True) &
-            Q(event_user_even__in=CustomUserEvent.objects.filter(user_id=user.id))
+            Q(event_user_event__in=CustomUserEvent.objects.filter(user_id=user.id))
         )
         self.assertQuerysetEqual(country_official_holidays, user_official_holidays, ordered=False)
 
@@ -172,6 +172,6 @@ class TestSignal(TransactionTestCase):
         user = CustomUser.objects.get(username='TestUser_2')
         user_official_holidays = Event.objects.filter(
             Q(country_holiday=user.country, official_holiday=True) &
-            Q(event_user_even__in=CustomUserEvent.objects.filter(user_id=user.id))
+            Q(event_user_event__in=CustomUserEvent.objects.filter(user_id=user.id))
         )
         self.assertFalse(user_official_holidays)
