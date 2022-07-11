@@ -80,8 +80,8 @@ class TestSignal(TransactionTestCase):
         Country.objects.create(country_name='None')
         country = Country.objects.create(country_name='Afghanistan')
         notification = Notification.objects.create(
-            description='Do not deliver notification',
-            value_time=None)
+            description='Do not deliver notification'
+        )
         Event.objects.create(
             name='Afghanistan: Eid Al Adha Holiday',
             start_datetime=datetime.datetime(

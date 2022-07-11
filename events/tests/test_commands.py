@@ -31,8 +31,8 @@ class TestCreateOfficialHolidays(APITransactionTestCase):
 
     def test_get_official_holidays(self):
         notification = Notification.objects.create(
-            description='Do not deliver notification',
-            value_time=None)
+            description='Do not deliver notification'
+        )
         call_command('create_country')
         call_command('create_official_holidays')
         queryset_events = Event.objects.all()
@@ -46,9 +46,17 @@ class TestCreateOfficialHolidays(APITransactionTestCase):
         events = calendar.events
         event = events.pop()
         name = event.name
-        start_datetime = event.begin.datetime.replace(tzinfo=ZoneInfo(settings.TIME_ZONE))
-        end_datetime = event.end.datetime.replace(tzinfo=ZoneInfo(settings.TIME_ZONE))
-        event_db = Event.objects.filter(name=name, start_datetime=start_datetime, end_datetime=end_datetime)
+        start_datetime = event.begin.datetime.replace(
+            tzinfo=ZoneInfo(settings.TIME_ZONE)
+        )
+        end_datetime = event.end.datetime.replace(
+            tzinfo=ZoneInfo(settings.TIME_ZONE)
+        )
+        event_db = Event.objects.filter(
+            name=name,
+            start_datetime=start_datetime,
+            end_datetime=end_datetime
+        )
 
         """Checking the correct creation of a record in the database with the correct data in the fields"""
 
@@ -68,8 +76,12 @@ class TestCreateOfficialHolidays(APITransactionTestCase):
                 try:
                     Event.objects.create(
                         name=event.name,
-                        start_datetime=event.begin.datetime.replace(tzinfo=ZoneInfo(settings.TIME_ZONE)),
-                        end_datetime=event.end.datetime.replace(tzinfo=ZoneInfo(settings.TIME_ZONE)),
+                        start_datetime=event.begin.datetime.replace(
+                            tzinfo=ZoneInfo(settings.TIME_ZONE)
+                        ),
+                        end_datetime=event.end.datetime.replace(
+                            tzinfo=ZoneInfo(settings.TIME_ZONE)
+                        ),
                         notification=notification,
                         country_holiday=country,
                         official_holiday=True

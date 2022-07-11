@@ -89,8 +89,8 @@ class TestApiUpdateCustomUserEvent(APITransactionTestCase):
     def setUp(self):
         country = Country.objects.create(country_name='Afghanistan')
         notification = Notification.objects.create(
-            description='Do not deliver notification',
-            value_time=None)
+            description='Do not deliver notification'
+        )
         event_1 = Event.objects.create(
             name='Afghanistan: Eid Al Adha Holiday',
             start_datetime=datetime.datetime(
@@ -146,7 +146,7 @@ class TestApiUpdateCustomUserEvent(APITransactionTestCase):
         CustomUserEvent.objects.create(user=user, event=event_2)
 
     def test_post_with_authenticate(self):
-        user = CustomUser.objects.get(id=1)
+        user = CustomUser.objects.get(pk=1)
         self.client.force_authenticate(user)
         response = self.client.post(reverse('update-custom-user-event'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -156,14 +156,14 @@ class TestApiUpdateCustomUserEvent(APITransactionTestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_without_new_event(self):
-        user = CustomUser.objects.get(id=1)
+        user = CustomUser.objects.get(pk=1)
         self.client.force_authenticate(user)
         response = self.client.post(reverse('update-custom-user-event'))
         self.assertEqual(response.data, {'added_events': []})
 
     def test_post_with_new_event(self):
-        country = Country.objects.get(id=1)
-        notification = Notification.objects.get(id=1)
+        country = Country.objects.get(pk=1)
+        notification = Notification.objects.get(pk=1)
         Event.objects.create(
             name='Afghanistan: Liberation Day',
             start_datetime=datetime.datetime(
@@ -186,7 +186,7 @@ class TestApiUpdateCustomUserEvent(APITransactionTestCase):
             country_holiday=country,
             official_holiday=True
         )
-        user = CustomUser.objects.get(id=1)
+        user = CustomUser.objects.get(pk=1)
         self.client.force_authenticate(user)
         response = self.client.post(reverse('update-custom-user-event'))
         self.assertEqual(response.data, {'added_events': ['Afghanistan: Liberation Day']})

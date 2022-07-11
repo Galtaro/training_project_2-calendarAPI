@@ -31,10 +31,13 @@ class TestEvent(TestCase):
         )
         event.user.add(user)
         event_end_datetime = Event.objects.get(pk=1).end_datetime
-        self.assertEqual(event_end_datetime, datetime.datetime(2022, 9, 23, 23, 59, tzinfo=pytz.UTC))
+        self.assertEqual(
+            event_end_datetime,
+            datetime.datetime(2022, 9, 23, 23, 59, tzinfo=pytz.UTC)
+        )
 
 
 class TestNotification(TestCase):
     def test_str(self):
-        notification = Notification.objects.create(description='Do not deliver notification')
+        notification = Notification.objects.get(pk=1)
         self.assertEqual(str(notification), '---')

@@ -26,6 +26,6 @@ class TestCreateCountry(TestCase):
         response = requests.get('https://www.officeholidays.com/countries')
         soup = BeautifulSoup(response.text, 'lxml')
         countries = soup.find_all('div', class_='four omega columns')[0].find_all('a')
-        self.assertIsNone(Country.objects.get(id=1).country_name)
+        self.assertIsNone(Country.objects.get(pk=1).country_name)
         self.assertEqual(len(Country.objects.all()), len(countries) + 1)
 
