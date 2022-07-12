@@ -16,7 +16,9 @@ from events.models import Event, CustomUserEvent, Notification
 class TestSendSignal(TestCase):
 
     def setUp(self):
-        call_command('create_country')
+        Country.objects.create(country_name=None)
+        Country.objects.create(country_name='Afghanistan')
+        Country.objects.create(country_name='Algeria')
         self.client.post(
             'http://localhost:8000/auth/users/', {
                 'username': 'TestUser_1',

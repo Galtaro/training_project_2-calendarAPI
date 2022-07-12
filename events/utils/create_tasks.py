@@ -8,8 +8,8 @@ def create_task_send_notification(event_name, notification, event_start_datetime
 
     """Create task for send notification before event. """
 
-    date_time_notification = event_start_datetime - timedelta(hours=notification)
-    clocked_schedule = ClockedSchedule.objects.create(clocked_time=date_time_notification)
+    datetime_notification = event_start_datetime - timedelta(hours=notification)
+    clocked_schedule = ClockedSchedule.objects.create(clocked_time=datetime_notification)
     PeriodicTask.objects.create(
         name=f'send_notification, {email}, {event_name}',
         task='events.tasks.send_event_notification',

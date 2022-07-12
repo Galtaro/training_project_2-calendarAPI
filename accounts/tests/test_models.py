@@ -7,8 +7,7 @@ from accounts.models import Country
 class TestCountry(TestCase):
 
     def test_string_representation_of_the_country_instance(self):
-        call_command('create_country')
-        country_1 = Country.objects.get(pk=1)
-        country_2 = Country.objects.get(pk=2)
+        country_1 = Country.objects.create(country_name=None)
+        country_2 = Country.objects.create(country_name='Afghanistan')
         self.assertEqual(str(country_1), 'None')
         self.assertEqual(str(country_2), country_2.country_name)
