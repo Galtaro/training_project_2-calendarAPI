@@ -31,6 +31,9 @@ class TestEvent(TestCase):
         )
         event.user.add(user)
         event_end_datetime = Event.objects.get(pk=1).end_datetime
+
+        """Checking event creation when missing 'end_datetime' field during initialization"""
+
         self.assertEqual(
             event_end_datetime,
             datetime.datetime(2022, 9, 23, 23, 59, tzinfo=pytz.UTC)
@@ -38,6 +41,9 @@ class TestEvent(TestCase):
 
 
 class TestNotification(TestCase):
-    def test_str(self):
+    def test_string_representation_of_the_notification_instance(self):
         notification = Notification.objects.get(pk=1)
+
+        """Checking string representation of the notification instance when 'value_time' is None"""
+
         self.assertEqual(str(notification), '---')

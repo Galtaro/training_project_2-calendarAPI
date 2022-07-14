@@ -24,7 +24,7 @@ class TestCreateTasks(APITestCase):
             is_active=True
         )
         self.client.force_authenticate(user)
-        response = self.client.post(
+        self.client.post(
             reverse('Event:list-create-event'),
             data={
                 'name': 'Go to swimming pool',

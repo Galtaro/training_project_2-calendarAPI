@@ -4,7 +4,6 @@ import pytz
 from django.test import TestCase
 from bs4 import BeautifulSoup
 from django.core import mail
-from django.core.management import call_command
 from django.db.models import Q
 from django.test import TransactionTestCase
 from djoser.signals import user_activated
@@ -51,6 +50,9 @@ class TestSendSignal(TestCase):
             href,
             {"uid": uid, "token": token}
         )
+
+        """Checking the possibility of calling a signal when user activated"""
+
         self.assertTrue(self.signal_was_called)
         user_activated.disconnect(handler)
 
@@ -70,6 +72,8 @@ class TestSendSignal(TestCase):
                 'country': 3
             }
         )
+
+        """Checking the possibility of calling a signal when user deactivated"""
 
         self.assertFalse(self.signal_was_called)
         user_activated.disconnect(handler)
@@ -160,6 +164,9 @@ class TestSignal(TransactionTestCase):
             Q(country_holiday=user.country, official_holiday=True) &
             Q(event_user_event__in=CustomUserEvent.objects.filter(user_id=user.id))
         )
+
+        """Checking for adding official holidays to the customuser with indicating country"""
+
         self.assertQuerysetEqual(country_official_holidays, user_official_holidays, ordered=False)
 
     def test_add_official_holidays_to_custom_user_without_indicating_country(self):
@@ -176,4 +183,8 @@ class TestSignal(TransactionTestCase):
             Q(country_holiday=user.country, official_holiday=True) &
             Q(event_user_event__in=CustomUserEvent.objects.filter(user_id=user.id))
         )
+
+        """Checking that official holidays has not been added to the customuser without 
+        indicating country"""
+
         self.assertFalse(user_official_holidays)

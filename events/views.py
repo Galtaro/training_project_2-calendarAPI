@@ -1,5 +1,3 @@
-from distutils.util import strtobool
-
 from django_filters import rest_framework as filters, ChoiceFilter
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
@@ -31,18 +29,6 @@ class EventFilter(filters.FilterSet):
         model = Event
         fields = ['official_holiday']
 
-    def filter_queryset(self, queryset):
-        user = self.request.user
-        if 'official_holiday' in self.data:
-            official_holiday = self.data['official_holiday']
-            if user.country and len(official_holiday):
-                official_holiday = strtobool(official_holiday)
-                queryset = Event.objects.filter(
-                    user=user,
-                    official_holiday=official_holiday
-                )
-        return queryset
-
 
 class ListCreateApiEvent(ListCreateAPIView):
     serializer_class = ListCreateApiEventSerializer
@@ -69,10 +55,12 @@ class ListCreateApiEvent(ListCreateAPIView):
         user = CustomUser.objects.get(email=request.user)
         user.save()
         if notification:
-            create_task_send_notification(
+            created_notification = create_task_send_notification(
                 event_name=event_name,
                 notification=notification,
                 event_start_datetime=event_start_datetime,
                 email=email
             )
+
+            return Response((created_notification, serializer.data), status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -28,6 +28,9 @@ class TestCreateUser(TestCase):
                 'country': 2
             }
         )
+
+        """Checking post response status code when creating a user with indicating country"""
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_custom_user_without_indicating_country(self):
@@ -39,6 +42,9 @@ class TestCreateUser(TestCase):
                 'country': 1
             }
         )
+
+        """Checking post response status code when creating a user without indicating country"""
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
@@ -64,10 +70,22 @@ class TestActivateUser(TestCase):
         )
 
     def test_send_activation_email(self):
+
+        """Checking the delivery of user activation emails"""
+
         self.assertEqual(len(mail.outbox), 2)
+
+        """Checking the sender's email"""
+
         self.assertEqual(mail.outbox[0].from_email, 'webmaster@localhost')
+
+        """Checking the recipient's email"""
+
         self.assertEqual(mail.outbox[0].to, ['TestUser_1@gmail.com'])
         soup = BeautifulSoup(mail.outbox[0].html, features="lxml")
+
+        """Checking for an activation link in an email"""
+
         self.assertTrue(soup.find('a').get('href'))
 
     def test_activate_email(self):
@@ -79,7 +97,13 @@ class TestActivateUser(TestCase):
             href,
             {"uid": uid, "token": token}
         )
+
+        """Checking get response status when the user activates the account"""
+
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        """Checking user status change to active"""
+
         self.assertTrue(CustomUser.objects.get(username='TestUser_1').is_active)
 
 
@@ -149,16 +173,25 @@ class TestApiUpdateCustomUserEvent(APITransactionTestCase):
         user = CustomUser.objects.get(pk=1)
         self.client.force_authenticate(user)
         response = self.client.post(reverse('update-custom-user-event'))
+
+        """Checking post response status when the user is authenticated"""
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_without_authenticate(self):
         response = self.client.post(reverse('update-custom-user-event'))
+
+        """Checking post response status when the user is not authenticated"""
+
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_without_new_event(self):
         user = CustomUser.objects.get(pk=1)
         self.client.force_authenticate(user)
         response = self.client.post(reverse('update-custom-user-event'))
+
+        """Checking 'response.data' without new event"""
+
         self.assertEqual(response.data, {'added_events': []})
 
     def test_post_with_new_event(self):
@@ -189,4 +222,7 @@ class TestApiUpdateCustomUserEvent(APITransactionTestCase):
         user = CustomUser.objects.get(pk=1)
         self.client.force_authenticate(user)
         response = self.client.post(reverse('update-custom-user-event'))
+
+        """Checking 'response.data' with new event"""
+
         self.assertEqual(response.data, {'added_events': ['Afghanistan: Liberation Day']})

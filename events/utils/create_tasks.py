@@ -5,7 +5,6 @@ from django_celery_beat.models import PeriodicTask, ClockedSchedule
 
 
 def create_task_send_notification(event_name, notification, event_start_datetime, email):
-
     """Create task for send notification before event. """
 
     datetime_notification = event_start_datetime - timedelta(hours=notification)
@@ -23,3 +22,4 @@ def create_task_send_notification(event_name, notification, event_start_datetime
         clocked=clocked_schedule,
         one_off=True
     )
+    return {'event_name': event_name, 'datetime_notification': datetime_notification}
