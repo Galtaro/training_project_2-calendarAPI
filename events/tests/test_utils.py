@@ -1,4 +1,5 @@
 import datetime
+import re
 
 import pytz
 from django.urls import reverse
@@ -83,7 +84,7 @@ class TestCreateTasks(APITestCase):
 
         self.assertEqual(
             task_name,
-            'send_notification, TestUser_1@gmail.com, Go to swimming pool'
+            f'{task_name[:10]}, TestUser_1@gmail.com, Go to swimming pool'
         )
 
     def test_task_field_content(self):
